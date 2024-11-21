@@ -1,6 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://bd7hj7ufhu1qj"]
+[gd_scene load_steps=3 format=3 uid="uid://bd7hj7ufhu1qj"]
 
 [ext_resource type="Script" path="res://Board/Scripts/tile.gd" id="1_vwivf"]
+
+[sub_resource type="GDScript" id="GDScript_1vmki"]
+script/source = "extends Control
+
+@onready var tile: Tile = $\"..\"
+
+#Hovering
+func _on_mouse_entered() -> void:
+	print(\"hoy\")
+	tile.board.hoveredTile = tile
+	tile.setColor(tile.currentColor*1.15)
+func _on_mouse_exited() -> void:
+	tile.board.hoveredTile = null
+	tile.setColor(tile.currentColor)
+"
 
 [node name="Tile" type="Control"]
 layout_mode = 3
@@ -11,7 +26,7 @@ offset_right = -1920.0
 offset_bottom = -1080.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
+mouse_filter = 2
 script = ExtResource("1_vwivf")
 
 [node name="OnTile" type="Control" parent="."]
@@ -22,9 +37,8 @@ mouse_filter = 1
 
 [node name="Display" type="Control" parent="."]
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
 mouse_filter = 1
+script = SubResource("GDScript_1vmki")
 
 [node name="Texture" type="TextureRect" parent="Display"]
 z_index = 1
@@ -38,5 +52,5 @@ offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 1
 
-[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="Display" to="." method="_on_display_mouse_entered"]
+[connection signal="mouse_exited" from="Display" to="." method="_on_display_mouse_exited"]

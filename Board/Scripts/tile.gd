@@ -11,15 +11,12 @@ var boardXY: Vector2i
 @onready var on_tile: Control = $OnTile
 
 var holding: bool = false
-@onready var hold_timer: Timer = $HoldTimer
 
 @onready var display: Control = $Display
 var baseColor: Color = Color.TRANSPARENT
 var currentColor: Color
 @onready var colorDisplay: ColorRect = $Display/Color
 @onready var textureDisplay: TextureRect = $Display/Texture
-
-@onready var collision_shape_2d: CollisionShape2D = $MouseCheck/CollisionShape2D
 
 func _ready() -> void:
 	pass
@@ -28,10 +25,10 @@ func _ready() -> void:
 ##---INTERACTIONS---
 
 #Hovering
-func _on_mouse_entered() -> void:
+func _on_display_mouse_entered() -> void:
 	board.hoveredTile = self
 	setColor(currentColor*1.15)
-func _on_mouse_exited() -> void:
+func _on_display_mouse_exited() -> void:
 	board.hoveredTile = null
 	setColor(currentColor)
 
@@ -127,13 +124,6 @@ func setTextureDisplay(isVisible: bool) -> void:
 
 func setColorDisplay(isVisible: bool) -> void:
 	colorDisplay.visible = isVisible
-
-#Sets the size of the mouse detection Area. Recommend using the same size as the tile
-func setHitboxSize(newSize: Vector2) -> void:
-	if collision_shape_2d:
-		collision_shape_2d.shape.size = newSize
-		print(collision_shape_2d.shape.size)
-		collision_shape_2d.position = newSize/2
 
 ##---INFORMATION ABOUT DISPLAY---
 

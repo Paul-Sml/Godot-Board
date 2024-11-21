@@ -19,10 +19,10 @@ var tiles: Array[Tile] = []
 
 ##---INITIALISATION---
 
-func _init(sizeX: int, sizeY: int, multipleBoards: bool) -> void:
+func _init(sizeX: int, sizeY: int, areThereMultipleBoards: bool) -> void:
 	self.boardSizeX = sizeX
 	self.boardSizeY = sizeY
-	self.multipleBoards = multipleBoards
+	self.multipleBoards = areThereMultipleBoards
 
 func _ready() -> void:
 	#Sets the board invisible before  all the setup is ready
@@ -50,7 +50,6 @@ func createBoard() -> void:
 			
 			#Size and placement
 			instance.setColorRectSize(DESIRED_TILE_SIZE)
-			instance.setHitboxSize(DESIRED_TILE_SIZE)
 			instance.position.x = DESIRED_TILE_SIZE.x * x
 			instance.position.y = DESIRED_TILE_SIZE.y * y
 			
@@ -72,7 +71,7 @@ func centerCameraOnBoard() -> void:
 ##---INTERACTIONS---
 
 ##TODO : Better holding
-func _gui_input(event: InputEvent) -> void:
+func _gui_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("Click"):
 		originalTile = hoveredTile
 		#originalTile.setColor(Color.GREEN)
@@ -177,8 +176,8 @@ func getKnightMoveTiles(tile: Tile) -> Array[Tile]:
 	t = t.filter(func(i): return i != null)
 	return t
 
-func getTilesInRange (tile: Tile, range: int) -> Array[Tile]:
-	return getAllOtherTiles(tile).filter(func(i: Tile): return abs(i.boardX - tile.boardX) + abs(i.boardY - tile.boardY) <= range)
+func getTilesInRange (tile: Tile, distance: int) -> Array[Tile]:
+	return getAllOtherTiles(tile).filter(func(i: Tile): return abs(i.boardX - tile.boardX) + abs(i.boardY - tile.boardY) <= distance)
 
 ##---GET INFORMATION---
 
