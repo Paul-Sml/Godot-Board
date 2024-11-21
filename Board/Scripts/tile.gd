@@ -40,8 +40,16 @@ func placeNodeOnTile(node: Node) -> void:
 ##---GAME INFORMATION---
 
 #Check if something is on the tile
+func isTileEmpty() -> bool:
+	return on_tile.get_child_count() == 0
+	
+#Check if something occupies the tile
 func isOccupied() -> bool:
-	return on_tile.get_child_count() > 0
+	for i in getAllNodesOnTile():
+		if i is Pawn:
+			if i.occupiesTile:
+				return true
+	return false
 
 #Returns the first child of the tile. Use when certain there is only 1 child (or always need first child)
 func getNodeOnTile() -> Node:

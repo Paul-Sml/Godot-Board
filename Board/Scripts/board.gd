@@ -74,6 +74,8 @@ func centerCameraOnBoard() -> void:
 func _gui_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("Click"):
 		originalTile = hoveredTile
+		#for i in getDiagonalTiles(hoveredTile):
+			#i.setColor(Color.YELLOW)
 		#originalTile.setColor(Color.GREEN)
 		if canHoldItems:
 			moveActive = true
