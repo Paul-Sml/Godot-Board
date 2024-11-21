@@ -2,10 +2,10 @@ extends Control
 class_name Board
 
 const TILE = preload("res://Board/Scenes/Tile.tscn")
-const DESIRED_TILE_SIZE: Vector2 = Vector2(100,100)
 
 #Board UI data
 var uiCenterOfBoard: Vector2
+var tileSize: Vector2
 var originalTile: Tile
 var hoveredTile: Tile
 var moveActive: bool = false
@@ -19,10 +19,11 @@ var tiles: Array[Tile] = []
 
 ##---INITIALISATION---
 
-func _init(sizeX: int, sizeY: int, areThereMultipleBoards: bool) -> void:
+func _init(sizeX: int, sizeY: int, areThereMultipleBoards: bool, desiredTileSize: Vector2) -> void:
 	self.boardSizeX = sizeX
 	self.boardSizeY = sizeY
 	self.multipleBoards = areThereMultipleBoards
+	self.tileSize = desiredTileSize
 
 func _ready() -> void:
 	#Sets the board invisible before  all the setup is ready
@@ -31,7 +32,7 @@ func _ready() -> void:
 	createBoard()
 	
 	#Put the center of the board on 0,0
-	uiCenterOfBoard = Vector2(DESIRED_TILE_SIZE.x * boardSizeX, DESIRED_TILE_SIZE.y * boardSizeY)/2
+	uiCenterOfBoard = Vector2(tileSize.x * boardSizeX, tileSize.y * boardSizeY)/2
 	self.position -= uiCenterOfBoard
 	centerCameraOnBoard()
 	
@@ -49,9 +50,9 @@ func createBoard() -> void:
 			self.add_child(instance)
 			
 			#Size and placement
-			instance.setColorRectSize(DESIRED_TILE_SIZE)
-			instance.position.x = DESIRED_TILE_SIZE.x * x
-			instance.position.y = DESIRED_TILE_SIZE.y * y
+			instance.setColorRectSize(tileSize)
+			instance.position.x = tileSize.x * x
+			instance.position.y = tileSize.y * y
 			
 			#Coloring
 			coloringTile(instance, x, y)
@@ -76,7 +77,6 @@ func _gui_input(_event: InputEvent) -> void:
 		originalTile = hoveredTile
 		#for i in getDiagonalTiles(hoveredTile):
 			#i.setColor(Color.YELLOW)
-		#originalTile.setColor(Color.GREEN)
 		if canHoldItems:
 			moveActive = true
 		

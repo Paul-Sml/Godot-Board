@@ -1,18 +1,12 @@
-extends Resource
+extends TextureRect
 class_name Pawn
 
-#Board position
-var boardX: int
-var boardY: int
-var boardXY: Vector2i
+@export var pawnData: PawnResource
 
-@export_group("hehe")
-@export var occupiesTile: bool= true
+func _init(data: PawnResource) -> void:
+	pawnData = data
 
-func setNewPositionOnBoard(x: int, y: int) -> void:
-	boardX = x
-	boardY = y
-	boardXY = Vector2i(x,y)
-
-func setOccupiesTile(occupies: bool) -> void:
-	occupiesTile = occupies
+func _ready() -> void:
+	z_index = 10
+	if pawnData.image:
+		self.texture = pawnData.image

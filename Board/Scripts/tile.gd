@@ -52,8 +52,8 @@ func isOccupied() -> bool:
 	return false
 
 #Returns the first child of the tile. Use when certain there is only 1 child (or always need first child)
-func getNodeOnTile() -> Node:
-	return on_tile.get_child(0)
+func getPawnOnTile() -> Pawn:
+	return on_tile.get_child(0) if on_tile.get_child(0) is Pawn else null
 
 #Returns the child of specified index
 func getSpecificNodeOnTile(index: int) -> Node:
