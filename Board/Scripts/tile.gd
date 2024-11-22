@@ -27,9 +27,11 @@ func _ready() -> void:
 #Hovering
 func _on_display_mouse_entered() -> void:
 	board.hoveredTile = self
+	board.get_parent().hoveredTile = self
 	setColor(currentColor*1.15)
 func _on_display_mouse_exited() -> void:
 	board.hoveredTile = null
+	board.get_parent().hoveredTile = null
 	setColor(currentColor)
 
 ##---ACTIONS---

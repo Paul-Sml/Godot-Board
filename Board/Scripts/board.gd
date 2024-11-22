@@ -78,7 +78,7 @@ func centerCameraOnBoard() -> void:
 ##---INTERACTIONS---
 
 ##TODO : Better holding
-func _gui_input(_event: InputEvent) -> void:
+func _gui_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("Click"):
 		originalTile = hoveredTile
 		if canHoldItems:
@@ -98,6 +98,8 @@ func _gui_input(_event: InputEvent) -> void:
 		else : if Input.is_action_just_released("Click"):
 			if hoveredTile != null:
 				move.emit(originalTile, hoveredTile)
+	
+	
 
 ##---ACTIONS---
 
