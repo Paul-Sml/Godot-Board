@@ -17,6 +17,12 @@ var boardSizeX: int
 var boardSizeY: int
 var tiles: Array[Tile] = []
 
+##---SIGNALS---
+
+signal move
+signal outsideMove
+
+
 ##---INITIALISATION---
 
 func _init(sizeX: int, sizeY: int, areThereMultipleBoards: bool, desiredTileSize: Vector2) -> void:
@@ -75,8 +81,6 @@ func centerCameraOnBoard() -> void:
 func _gui_input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("Click"):
 		originalTile = hoveredTile
-		#for i in getDiagonalTiles(hoveredTile):
-			#i.setColor(Color.YELLOW)
 		if canHoldItems:
 			moveActive = true
 		
@@ -86,15 +90,29 @@ func _gui_input(_event: InputEvent) -> void:
 		
 		if Input.is_action_just_released("Click") and hoveredTile == null and multipleBoards:
 			moveActive = false
-			print("move outside of board")
+			outsideMove.emit(originalTile)
 		
 		if (Input.is_action_just_released("Click") and (originalTile == hoveredTile or (hoveredTile == null and !multipleBoards))) or Input.is_action_just_pressed("RClick"):
 			moveActive = false
-			print("cancel move")
 		
 		else : if Input.is_action_just_released("Click"):
 			if hoveredTile != null:
-				print(str(originalTile.boardXY) + " to " + str(hoveredTile.boardXY))
+				move.emit(originalTile, hoveredTile)
+
+##---ACTIONS---
+
+func placeNodeOnTile(tilePos: Vector2i, node: Node) -> void:
+	getTileVector(tilePos).placeNodeOnTile(node)
+
+func movePawn(startingTile: Tile, endingTile: Tile) -> void:
+	var pawn = startingTile.getPawnOnTile()
+	if pawn != null:
+		startingTile.removeNodeOnTile(pawn)
+		endingTile.placeNodeOnTile(pawn)
+
+func movePawnAction(startingTile: Tile, endingTile: Tile) -> void:
+	if canMovePawn(startingTile,endingTile):
+		movePawn(startingTile,endingTile)
 
 ##---GET TILES---
 
@@ -182,6 +200,9 @@ func getTilesInRange (tile: Tile, distance: int) -> Array[Tile]:
 	return getAllOtherTiles(tile).filter(func(i: Tile): return abs(i.boardX - tile.boardX) + abs(i.boardY - tile.boardY) <= distance)
 
 ##---GET INFORMATION---
+
+func canMovePawn(startingTile: Tile, endingTile: Tile) -> bool:
+	return !startingTile.isTileEmpty() and !endingTile.isOccupied()
 
 func getRange(tile1: Tile, tile2: Tile) -> int :
 	return abs(tile1.boardX - tile2.boardX) + abs(tile1.boardY - tile2.boardY)

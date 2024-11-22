@@ -8,7 +8,7 @@ var boardXY: Vector2i
 
 @onready var board: Board = self.get_parent()
 
-@onready var on_tile: Control = $OnTile
+@onready var on_tile: CenterContainer = $OnTile
 
 var holding: bool = false
 
@@ -36,6 +36,9 @@ func _on_display_mouse_exited() -> void:
 
 func placeNodeOnTile(node: Node) -> void:
 	on_tile.add_child(node)
+
+func removeNodeOnTile(node: Node) -> void:
+	on_tile.remove_child(node)
 
 ##---GAME INFORMATION---
 
@@ -123,6 +126,7 @@ func setColorTransparent(color: Color) -> void:
 func setColorRectSize(newSize: Vector2) -> void:
 	if colorDisplay:
 		colorDisplay.size = newSize
+	on_tile.size = newSize
 
 func setDisplay(isVisible: bool) -> void:
 	display.visible = isVisible

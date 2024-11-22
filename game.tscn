@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bmgn5lyei1voj"]
+[gd_scene load_steps=2 format=3 uid="uid://bmgn5lyei1voj"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_csya2"]
-[ext_resource type="PackedScene" uid="uid://3xkngddr0ns0" path="res://Board/Scenes/Pawn.tscn" id="2_julqd"]
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -11,14 +10,5 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_csya2")
-
-[node name="Pawn" parent="." instance=ExtResource("2_julqd")]
-z_index = 100
-layout_mode = 0
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
-grow_horizontal = 1
-grow_vertical = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
