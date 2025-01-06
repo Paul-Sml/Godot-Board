@@ -42,6 +42,11 @@ func placeNodeOnTile(node: Node) -> void:
 func removeNodeOnTile(node: Node) -> void:
 	on_tile.remove_child(node)
 
+func clearTile() -> void:
+	for n in on_tile.get_children():
+		on_tile.remove_child(n)
+		n.queue_free()
+
 ##---GAME INFORMATION---
 
 #Check if something is on the tile
@@ -120,9 +125,8 @@ func resetColor() -> void:
 		currentColor = baseColor
 
 #Set a TRANSPARENT as a new Color for the tile. Tile remains fonctional but is transparent (given there is not Texture/Texture is not visible)
-func setColorTransparent(color: Color) -> void:
-	if colorDisplay:
-		colorDisplay.color = Color.TRANSPARENT
+func setBaseColorTransparent() -> void:
+	setBaseColor(Color.TRANSPARENT)
 
 #Set the size of the ColorRect
 func setColorRectSize(newSize: Vector2) -> void:
